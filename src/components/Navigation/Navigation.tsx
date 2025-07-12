@@ -12,7 +12,7 @@ export default function Navigation() {
 	return (
 		<header className="bg-dark-8">
 			{/* Outer Link */}
-			<div className="pt-10 pb-3.5 lg:py-3 flex justify-center items-center gap-8 cursor-pointer">
+			<div className="pt-10 pb-3.5 px-4 lg:px-0 lg:py-3 flex justify-center items-center gap-8 cursor-pointer">
 				<p className={`text-grey-60 font-inter text-center text-xs lg:text-sm`}>
 					Subscribe to our Newsletter For Blogs and Resources
 				</p>
