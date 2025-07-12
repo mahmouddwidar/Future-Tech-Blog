@@ -1,6 +1,6 @@
 export default function HeroTitleSection() {
 	return (
-		<div className="container px-4 mx-auto pt-10 pb-7.5 lg:py-24">
+		<div className="px-4 pt-10 pb-7.5 lg:py-24">
 			<p className="font-kumbh font-medium text-lg text-dark-40 mb-3.5 lg:mb-5">
 				Your Journey to Tomorrow Begins Here
 			</p>

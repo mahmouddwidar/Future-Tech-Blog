@@ -4,7 +4,7 @@ import ArrowUpRight from "../icons/arrowUpRight";
 
 export default function HeroImageSection() {
 	return (
-		<div className="p-10 lg:p-12 lg:pr-0 pt-24.5 lg:pt-63 relative overflow-hidden lg:w-[48%] h-full lg:border-l lg:border-dark-15">
+		<div className="p-10 lg:p-12 lg:pr-0 pt-24.5 lg:pt-63 relative overflow-hidden lg:w-[48%] h-full">
 			<div className="rotate-55 bg-no-repeat absolute -top-10 -left-18 opacity-70 -z-1">
 				<Image
 					src={`/imgs/abstractLayer.svg`}

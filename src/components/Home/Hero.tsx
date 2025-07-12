@@ -7,8 +7,8 @@ export default function Hero() {
 	return (
 		<>
 			<section>
-				<div className="flex flex-col lg:flex-row items-center lg:items-start justify-between ">
-					<div className="w-full">
+				<div className="container mx-auto flex flex-col lg:flex-row items-center lg:items-start justify-between">
+					<div className="w-full lg:border-r lg:border-r-dark-15">
 						<HeroTitleSection />
 						<HeroStats />
 					</div>
