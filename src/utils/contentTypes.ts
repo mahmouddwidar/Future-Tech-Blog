@@ -19,4 +19,18 @@ interface articlesCards {
     shares: number,
 }
 
-export type { NavigationLink, articlesCards }
+interface FeatureItem {
+    id: number;
+    title: string;
+    desc: string;
+}
+
+interface FeatureGroup {
+    id: number;
+    title: string;
+    desc: string;
+    icon: string;
+    features: FeatureItem[];
+}
+
+export type { NavigationLink, articlesCards, FeatureItem, FeatureGroup }

@@ -1,4 +1,4 @@
-import { type articlesCards, NavigationLink } from "./contentTypes";
+import { type articlesCards, FeatureGroup, NavigationLink } from "./contentTypes";
 
 const navigationLinks: NavigationLink[] = [
     {
@@ -67,4 +67,63 @@ const articlesCards: articlesCards[] = [
     },
 ]
 
-export { navigationLinks, articlesCards }
+const features: FeatureGroup[] = [
+    {
+        id: 1,
+        title: "Future Technology Blog",
+        desc: "Stay informed with our blog section dedicated to future technology.",
+        icon: "/imgs/icons/feature1.svg",
+        features: [
+            {
+                id: 1,
+                title: "Quantity",
+                desc: "Over 1,000 articles on emerging tech trends and breakthroughs.",
+            },
+            {
+                id: 2,
+                title: "Variety",
+                desc: "Articles cover fields like AI, robotics, biotechnology, and more.",
+            },
+            {
+                id: 3,
+                title: "Frequency",
+                desc: "Fresh content added daily to keep you up to date.",
+            },
+            {
+                id: 4,
+                title: "Authoritative",
+                desc: "Written by our team of tech experts and industry professionals.",
+            }
+        ]
+    },
+    {
+        id: 2,
+        title: "Research Insights Blogs",
+        desc: "Dive deep into future technology concepts with our research section.",
+        icon: "/imgs/icons/feature2.svg",
+        features: [
+            {
+                id: 1,
+                title: "Depth",
+                desc: "500+ research articles for in-depth understanding.",
+            },
+            {
+                id: 2,
+                title: "Graphics",
+                desc: "Visual aids and infographics to enhance comprehension.",
+            },
+            {
+                id: 3,
+                title: "Trends",
+                desc: "Explore emerging trends in future technology research.",
+            },
+            {
+                id: 4,
+                title: "Contributors",
+                desc: "Contributions from tech researchers and academics.",
+            }
+        ]
+    },
+]
+
+export { navigationLinks, articlesCards, features }
