@@ -1,6 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
-import ArrowUpRight from "../icons/arrowUpRight";
+import ExternalLink from "../ExternalLink";
 
 export default function HeroImageSection() {
 	return (
@@ -56,13 +55,11 @@ export default function HeroImageSection() {
 						Over 1,000 articles on emerging tech trends and breakthroughs.
 					</p>
 				</div>
-				<Link
+				<ExternalLink
 					href={`/`}
-					className="text-grey-60 text-sm font-inter px-5 py-3.5 border border-dark-15 rounded-lg w-full lg:w-fit inline-flex items-center justify-center"
-				>
-					Explore Resources
-					<ArrowUpRight className="fill-primary-55 ml-1 size-4" />
-				</Link>
+					title={`Explore Resources`}
+					className="w-full lg:w-fit"
+				/>
 			</div>
 		</div>
 	);

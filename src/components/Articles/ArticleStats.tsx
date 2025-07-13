@@ -1,3 +1,4 @@
+import Comments from "../icons/Comments";
 import Heart from "../icons/Heart";
 import Share from "../icons/Share";
 
@@ -10,9 +11,11 @@ function formatCount(count: number) {
 export default function ArticleStats({
 	likes,
 	shares,
+	comments
 }: {
 	likes: number;
 	shares: number;
+	comments?: number;
 }) {
 	return (
 		<div className="flex justify-start items-center gap-2">
@@ -20,6 +23,12 @@ export default function ArticleStats({
 				<Heart className="stroke-dark-40 fill-transparent size-5" />
 				<p className="font-kumbh text-grey-60 text-sm">{formatCount(likes)}</p>
 			</div>
+			{comments !== undefined && (
+				<div className="bg-dark-10 border border-dark-15 py-1.5 px-3.5 rounded-full flex justify-between items-center gap-1.5">
+					<Comments className="stroke-dark-40 fill-transparent size-5" />
+					<p className="font-kumbh text-grey-60 text-sm">{formatCount(comments)}</p>
+				</div>
+			)}
 			<div className="bg-dark-10 border border-dark-15 py-1.5 px-3.5 rounded-full flex justify-between items-center gap-1.5">
 				<Share className="stroke-dark-40 fill-transparent size-5" />
 				<p className="font-kumbh text-grey-60 text-sm">{formatCount(shares)}</p>

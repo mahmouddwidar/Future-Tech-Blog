@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navigation from "@/components/Navigation/Navigation";
 import { inter, kumbhSans } from "./fonts";
+import Footer from "@/components/Footer/Footer";
 
 export const metadata: Metadata = {
 	title: "Future Tech",
@@ -15,9 +16,12 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className={`${inter.variable} ${kumbhSans.variable} antialiased`}>
+			<body
+				className={`${inter.variable} ${kumbhSans.variable} antialiased scroll-smooth`}
+			>
 				<Navigation />
 				{children}
+				<Footer />
 			</body>
 		</html>
 	);

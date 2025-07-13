@@ -1,14 +1,18 @@
 import React from "react";
-import FeaturesTitle from "./FeaturesTitle";
 import FeatureSection from "./FeatureSection";
 import { features } from "@/utils/content";
+import SectionTitle from "@/components/SectionTitle";
+// import ExternalLink from "@/components/ExternalLink";
 
 export default function Features() {
 	return (
 		<>
 			{/* Title */}
 			<section className="bg-dark-10 border-b border-b-dark-15">
-				<FeaturesTitle />
+				<SectionTitle
+					title="FutureTech Features"
+					subTitle="Unlock the Power of"
+				/>
 			</section>
 			{/* Features */}
 			{features.map((feature) => (
