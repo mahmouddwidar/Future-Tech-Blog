@@ -6,7 +6,7 @@ import LinkedIn from "../icons/LinkedIn";
 
 export default function Footer() {
 	return (
-		<section className="">
+		<footer className="border-t border-t-dark-15">
 			<div className="container mx-auto px-4 lg:px-0">
 				<div className="py-10 lg:py-20">
 					<ul className="flex justify-between items-start flex-wrap gap-5 ">
@@ -41,6 +41,6 @@ export default function Footer() {
 					</div>
 				</div>
 			</div>
-		</section>
+		</footer>
 	);
 }

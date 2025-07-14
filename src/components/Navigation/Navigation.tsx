@@ -50,10 +50,10 @@ export default function Navigation() {
 					</ul>
 
 					<Link
-						href={"/contact"}
-						className="py-2.5 px-3.5 text-dark-8 text-sm font-medium bg-primary-55 hover:bg-primary-60 rounded-md hidden lg:block"
+						href={"/login"}
+						className="py-2.5 px-3.5 text-dark-8 text-sm font-medium bg-primary-55 hover:bg-primary-60 hover:text-dark-15 rounded-md hidden lg:block"
 					>
-						Contact Us
+						Login
 					</Link>
 				</nav>
 			</div>

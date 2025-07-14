@@ -8,8 +8,8 @@ const navigationLinks: NavigationLink[] = [
     },
     {
         id: 2,
-        href: "/news",
-        text: "News"
+        href: "/blogs",
+        text: "Blogs"
     },
     {
         id: 3,
@@ -208,11 +208,11 @@ const footerCols: FooterCol[] = [
         heading: "Home",
         links: [
             { id: 1, href: "#", name: "Features", isNew: false },
-            { id: 2, href: "#", name: "Blogs", isNew: false  },
-            { id: 3, href: "#", name: "Resources", isNew: true  },
-            { id: 4, href: "#", name: "Testimonials", isNew: false  },
-            { id: 5, href: "#", name: "Contact Us", isNew: false  },
-            { id: 6, href: "#", name: "Newsletter", isNew: false  },
+            { id: 2, href: "#", name: "Blogs", isNew: false },
+            { id: 3, href: "#", name: "Resources", isNew: true },
+            { id: 4, href: "#", name: "Testimonials", isNew: false },
+            { id: 5, href: "#", name: "Contact Us", isNew: false },
+            { id: 6, href: "#", name: "Newsletter", isNew: false },
         ],
     },
     {
@@ -220,11 +220,11 @@ const footerCols: FooterCol[] = [
         heading: "News",
         links: [
             { id: 1, href: "#", name: "Trending Stories", isNew: false },
-            { id: 2, href: "#", name: "Featured Videos", isNew: false  },
-            { id: 3, href: "#", name: "Technology", isNew: false  },
-            { id: 4, href: "#", name: "Health", isNew: false  },
-            { id: 5, href: "#", name: "Politics", isNew: false  },
-            { id: 6, href: "#", name: "Environment", isNew: false  },
+            { id: 2, href: "#", name: "Featured Videos", isNew: false },
+            { id: 3, href: "#", name: "Technology", isNew: false },
+            { id: 4, href: "#", name: "Health", isNew: false },
+            { id: 5, href: "#", name: "Politics", isNew: false },
+            { id: 6, href: "#", name: "Environment", isNew: false },
         ],
     },
     {
@@ -232,11 +232,11 @@ const footerCols: FooterCol[] = [
         heading: "Blogs",
         links: [
             { id: 1, href: "#", name: "Quantum Computing", isNew: false },
-            { id: 2, href: "#", name: "AI Ethics", isNew: false  },
-            { id: 3, href: "#", name: "Space Exploration", isNew: false  },
-            { id: 4, href: "#", name: "Biotechnology", isNew: true  },
-            { id: 5, href: "#", name: "Renewable Energy", isNew: false  },
-            { id: 6, href: "#", name: "Biohacking", isNew: false  },
+            { id: 2, href: "#", name: "AI Ethics", isNew: false },
+            { id: 3, href: "#", name: "Space Exploration", isNew: false },
+            { id: 4, href: "#", name: "Biotechnology", isNew: true },
+            { id: 5, href: "#", name: "Renewable Energy", isNew: false },
+            { id: 6, href: "#", name: "Biohacking", isNew: false },
         ],
     },
     {
@@ -244,9 +244,9 @@ const footerCols: FooterCol[] = [
         heading: "Podcasts",
         links: [
             { id: 1, href: "#", name: "AI Revolution", isNew: false },
-            { id: 2, href: "#", name: "AI Revolution", isNew: true  },
-            { id: 3, href: "#", name: "TechTalk AI", isNew: false  },
-            { id: 4, href: "#", name: "AI Conversations", isNew: false  },
+            { id: 2, href: "#", name: "AI Revolution", isNew: true },
+            { id: 3, href: "#", name: "TechTalk AI", isNew: false },
+            { id: 4, href: "#", name: "AI Conversations", isNew: false },
         ],
     },
     {
@@ -254,32 +254,11 @@ const footerCols: FooterCol[] = [
         heading: "Resources",
         links: [
             { id: 1, href: "#", name: "Whitepapers", isNew: false, externalLink: true, },
-            { id: 2, href: "#", name: "Ebooks", isNew: false, externalLink: true,  },
-            { id: 3, href: "#", name: "Reports", isNew: false, externalLink: true,  },
-            { id: 4, href: "#", name: "Research Papers", isNew: false, externalLink: true,  },
+            { id: 2, href: "#", name: "Ebooks", isNew: false, externalLink: true, },
+            { id: 3, href: "#", name: "Reports", isNew: false, externalLink: true, },
+            { id: 4, href: "#", name: "Research Papers", isNew: false, externalLink: true, },
         ],
     },
 ];
-
-// const footerSocials: FooterSocials[] = [
-//     {
-//         id: 1,
-//         alt: "LinkedIn Logo Link",
-//         href: "https://www.linkedin.com",
-//         Icon: Linkedin,
-//     },
-//     {
-//         id: 2,
-//         alt: "Instagram Logo Link",
-//         href: "https://www.instagram.com",
-//         Icon: Instagram,
-//     },
-//     {
-//         id: 3,
-//         alt: "WhatsApp Logo Link",
-//         href: "https://www.whatsapp.com",
-//         Icon: WhatsApp,
-//     },
-// ];
 
 export { navigationLinks, articlesCards, features, categories, blogs, footerCols }
