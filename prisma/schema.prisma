@@ -14,29 +14,28 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-  id Int @id @default(autoincrement())
+  id         Int      @id @default(autoincrement())
   first_name String
-  last_name String?
-  email String @unique
-  password String
-  posts Post[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  imageUrl String?
-  bio String?
-  role String @default("USER") // Possible values: USER, ADMIN
+  last_name  String?
+  email      String   @unique
+  password   String
+  posts      Post[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  imageUrl   String?
+  bio        String?
+  role       String   @default("USER") // Possible values: USER, ADMIN
 }
 
 model Post {
-  id Int @id @default(autoincrement())
-  title String
-  content String
-  category String
-  authorId Int
-  author User @relation(fields: [authorId], references: [id])
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String
+  category  String
+  authorId  Int
+  author    User     @relation(fields: [authorId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  imageUrl String?
+  imageUrl  String?
 }

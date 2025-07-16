@@ -1,0 +1,29 @@
+// Data Transfer Object
+
+// USER
+interface CreateUserDto {
+    first_name: string,
+    last_name?: string,
+    email: string,
+    password: string,
+}
+
+interface UpdateUserDto {
+    first_name?: string,
+    last_name?: string,
+    email?: string,
+    password?: string,
+    bio?: string,
+    imageUrl?: string
+}
+
+// POST
+interface CreatePostDto {
+    title: string,
+    content: string,
+    category: string,
+    authorId: number,
+    imageUrl: string
+}
+
+export type { CreateUserDto, UpdateUserDto, CreatePostDto }
