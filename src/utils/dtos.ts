@@ -26,4 +26,11 @@ interface CreatePostDto {
     imageUrl: string
 }
 
-export type { CreateUserDto, UpdateUserDto, CreatePostDto }
+interface UpdatePostDto {
+    title?: string,
+    content?: string,
+    category?: string,
+    imageUrl?: string
+}
+
+export type { CreateUserDto, UpdateUserDto, CreatePostDto, UpdatePostDto }

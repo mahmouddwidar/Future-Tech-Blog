@@ -8,7 +8,7 @@ const createUserSchema = z.object({
     password: z.string()
         .min(8, { message: "Password must be at least 8 characters long" })
         .max(20, { message: "Password must not exceed 20 characters" })
-});
+}).strict();
 
 const updateUserSchema = z.object({
     first_name: z.string().min(3).max(100).optional(),
@@ -18,8 +18,8 @@ const updateUserSchema = z.object({
         .min(8, { message: "Password must be at least 8 characters long" })
         .max(20, { message: "Password must not exceed 20 characters" }).optional(),
     bio: z.string().max(100).nullable().optional(),
-    imageUrl: z.string().max(100).optional(),
-})
+    imageUrl: z.url().optional(),
+}).strict()
 
 // POST
 const createPostSchema = z.object({
@@ -27,12 +27,20 @@ const createPostSchema = z.object({
     content: z.string().min(10).max(1000),
     category: z.string().min(3).max(50),
     authorId: z.number().int().positive(),
-    imageUrl: z.string().min(10).max(200),
-})
+    imageUrl: z.url(),
+}).strict()
+
+const updatePostSchema = z.object({
+    title: z.string().min(5).max(200).optional(),
+    content: z.string().min(10).max(1000).optional(),
+    category: z.string().min(3).max(50).optional(),
+    authorId: z.number().int().positive().optional(),
+    imageUrl: z.url().optional(),
+}).strict()
 
 const idSchema = z.object({
-    id: z.coerce.number().int().positive({ message: 'Invalid user ID' }),
+    id: z.coerce.number().int().positive({ message: 'Invalid ID' }),
 });
 
 
-export { createUserSchema, updateUserSchema, idSchema, createPostSchema }
+export { createUserSchema, updateUserSchema, idSchema, createPostSchema, updatePostSchema }

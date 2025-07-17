@@ -1,9 +1,7 @@
 import prisma from "@/lib/prisma";
-import { CreatePostDto, CreateUserDto } from "@/utils/dtos";
-import { createPostSchema, createUserSchema } from "@/utils/validationSchemas";
+import { CreatePostDto } from "@/utils/dtos";
+import { createPostSchema } from "@/utils/validationSchemas";
 import { NextRequest, NextResponse } from "next/server";
-import bcrypt from 'bcrypt';
-
 
 /**
  * @method GET
