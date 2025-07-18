@@ -17,6 +17,11 @@ interface UpdateUserDto {
     imageUrl?: string
 }
 
+interface LoginUserDto {
+    email: string,
+    password: string,
+}
+
 // POST
 interface CreatePostDto {
     title: string,
@@ -33,4 +38,4 @@ interface UpdatePostDto {
     imageUrl?: string
 }
 
-export type { CreateUserDto, UpdateUserDto, CreatePostDto, UpdatePostDto }
+export type { CreateUserDto, UpdateUserDto, CreatePostDto, UpdatePostDto, LoginUserDto }
