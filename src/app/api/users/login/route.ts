@@ -3,7 +3,7 @@ import { LoginUserDto } from "@/utils/dtos";
 import { loginUserSchema } from "@/utils/validationSchemas";
 import { NextRequest, NextResponse } from "next/server";
 import bycrpt from "bcrypt";
-import { generateJwt } from "@/utils/generateJwt";
+import { setCookie } from "@/utils/generateJwt";
 import { PayLoad } from "@/utils/type";
 
 
@@ -50,13 +50,13 @@ export async function POST(req: NextRequest) {
             email: user.email,
             role: user.role,
         }
-
-        const token = generateJwt(payload);
+        // Generate JWT
+        const cookie = setCookie(payload);
 
         return NextResponse.json({
             msg: "Login successful",
-            token,
-        }, { status: 200 });
+        }, { status: 200, headers: { "Set-Cookie": cookie } });
+
     } catch (error) {
         console.error("Error in user login:", error);
         return NextResponse.json({ msg: "Internal Server Error" }, { status: 500 });

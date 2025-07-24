@@ -2,6 +2,8 @@ import prisma from "@/lib/prisma";
 import { idSchema } from "@/utils/validationSchemas";
 import { NextRequest, NextResponse } from "next/server";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import { cookies } from "next/headers";
+import { verifyToken } from "@/utils/verifyToken";
 
 interface Props {
 	params: { id: string };
@@ -16,7 +18,7 @@ interface Props {
 export async function DELETE(req: NextRequest, { params }: Props) {
 	try {
 		// Invalid User Data
-		const parseParams = idSchema.safeParse(params);
+		const parseParams = await idSchema.safeParse(params);
 
 		if (!parseParams.success) {
 			return NextResponse.json(
@@ -38,22 +40,9 @@ export async function DELETE(req: NextRequest, { params }: Props) {
 			);
 		}
 
-		const authToken = req.headers.get("token") as string;
-		if (!authToken) {
-			return NextResponse.json(
-				{
-					msg: "Authentication token is required",
-				},
-				{ status: 401 }
-			);
-		}
+		const userFromToken = verifyToken(req) as JwtPayload;
 
-		const userFromToken = jwt.verify(
-			authToken,
-			process.env.JWT_SECRET as string
-		) as JwtPayload;
-
-		if (userFromToken.id !== user.id) {
+		if (userFromToken !== null && userFromToken.id !== user.id) {
 			return NextResponse.json(
 				{ msg: "You are not authorized to delete this user profile" },
 				{ status: 403 }
@@ -69,6 +58,9 @@ export async function DELETE(req: NextRequest, { params }: Props) {
 		await prisma.user.delete({
 			where: { id: user.id },
 		});
+
+		// Logout user by deleting the cookie
+		(await cookies()).delete("token");
 
 		return NextResponse.json(
 			{
