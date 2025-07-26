@@ -175,6 +175,13 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
             return NextResponse.json({ msg: "User not found." }, { status: 404 });
         }
 
+        // Delete Related Comments
+        await prisma.comment.deleteMany({
+            where: {
+                authorId: id
+            }
+        })
+
         // Delete Related Posts
         await prisma.post.deleteMany({
             where: {

@@ -52,8 +52,12 @@ const idSchema = z.object({
 
 //COMMENT
 const createCommentSchema = z.object({
-    content: z.string().min(10).max(1000),
+    content: z.string().min(1).max(1000),
     postId: z.number().int().positive(),
 }).strict();
 
-export { createUserSchema, updateUserSchema, idSchema, createPostSchema, updatePostSchema, loginUserSchema, createCommentSchema }
+const updateCommentSchema = z.object({
+    content: z.string().min(10).max(1000),
+}).strict()
+
+export { createUserSchema, updateUserSchema, idSchema, createPostSchema, updatePostSchema, loginUserSchema, createCommentSchema, updateCommentSchema }

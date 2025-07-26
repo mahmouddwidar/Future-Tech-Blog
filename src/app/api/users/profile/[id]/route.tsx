@@ -71,7 +71,7 @@ export async function GET(req: NextRequest, { params }: Props) {
 			},
 			{ status: 200 }
 		);
-		
+
 	} catch (error) {
 		return NextResponse.json(
 			{
@@ -202,6 +202,13 @@ export async function DELETE(req: NextRequest, { params }: Props) {
 				{ status: 403 }
 			);
 		}
+
+		// Delete User Comments
+		await prisma.comment.deleteMany({
+			where: {
+				authorId: user.id
+			}
+		})
 
 		// Delete user Posts
 		await prisma.post.deleteMany({

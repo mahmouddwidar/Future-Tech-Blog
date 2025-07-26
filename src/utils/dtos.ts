@@ -46,4 +46,8 @@ interface CreateCommentDto {
     postId: number,
 }
 
-export type { CreateUserDto, UpdateUserDto, CreatePostDto, UpdatePostDto, LoginUserDto, CreateCommentDto }
+interface UpdateCommentDto {
+    content: string,
+}
+
+export type { CreateUserDto, UpdateUserDto, CreatePostDto, UpdatePostDto, LoginUserDto, CreateCommentDto, UpdateCommentDto }

@@ -45,6 +45,7 @@ export async function GET(request: NextRequest,
                     }
                 },
                 imageUrl: true,
+                comments: true,
                 createdAt: true,
                 updatedAt: true,
             }

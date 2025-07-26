@@ -14,6 +14,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  USER
+  ADMIN
+}
+
 model User {
   id         Int      @id @default(autoincrement())
   first_name String
@@ -25,7 +30,7 @@ model User {
   updatedAt  DateTime @updatedAt
   imageUrl   String?
   bio        String?
-  role       String   @default("USER") // Possible values: USER, ADMIN
+  role       Role   @default(USER)
   comments   Comment[]
 }
 
