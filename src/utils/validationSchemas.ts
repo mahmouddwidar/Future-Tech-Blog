@@ -1,4 +1,4 @@
-import z, { email } from "zod";
+import z from "zod";
 
 // USER
 const createUserSchema = z.object({
@@ -7,7 +7,8 @@ const createUserSchema = z.object({
     email: z.email({ message: "This is not a valid email." }).min(1, { message: "This field has to be filled." }),
     password: z.string()
         .min(8, { message: "Password must be at least 8 characters long" })
-        .max(20, { message: "Password must not exceed 20 characters" })
+        .max(20, { message: "Password must not exceed 20 characters" }),
+    role: z.enum(["USER", "ADMIN"]).default("USER"),
 }).strict();
 
 const updateUserSchema = z.object({
@@ -49,4 +50,10 @@ const idSchema = z.object({
 });
 
 
-export { createUserSchema, updateUserSchema, idSchema, createPostSchema, updatePostSchema, loginUserSchema }
+//COMMENT
+const createCommentSchema = z.object({
+    content: z.string().min(10).max(1000),
+    postId: z.number().int().positive(),
+}).strict();
+
+export { createUserSchema, updateUserSchema, idSchema, createPostSchema, updatePostSchema, loginUserSchema, createCommentSchema }

@@ -6,6 +6,7 @@ interface CreateUserDto {
     last_name?: string,
     email: string,
     password: string,
+    role?: string,
 }
 
 interface UpdateUserDto {
@@ -38,4 +39,11 @@ interface UpdatePostDto {
     imageUrl?: string
 }
 
-export type { CreateUserDto, UpdateUserDto, CreatePostDto, UpdatePostDto, LoginUserDto }
+
+// COMMENT
+interface CreateCommentDto {
+    content: string,
+    postId: number,
+}
+
+export type { CreateUserDto, UpdateUserDto, CreatePostDto, UpdatePostDto, LoginUserDto, CreateCommentDto }

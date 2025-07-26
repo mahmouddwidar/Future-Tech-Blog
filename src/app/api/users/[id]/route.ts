@@ -1,16 +1,17 @@
-import { User } from "@/generated/prisma";
 import prisma from "@/lib/prisma";
 import { UpdateUserDto } from "@/utils/dtos";
 import { idSchema, updateUserSchema } from "@/utils/validationSchemas";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from 'bcrypt';
+import { verifyToken } from "@/utils/verifyToken";
+import z from "zod";
 
 
 /**
  * @route ~/api/users/:id
  * @method GET
  * @description Get Single User with id
- * @access Public
+ * @access private (only admin can access this route)
  */
 export async function GET(request: NextRequest,
     { params }: { params: { id: string } }) {
@@ -28,10 +29,17 @@ export async function GET(request: NextRequest,
 
         const id = parseParams.data.id;
 
+        // Check if user is admin
+        const userFromToken = verifyToken(request);
+        if (userFromToken === null || userFromToken.role !== "ADMIN") {
+            return NextResponse.json({ msg: "Unauthorized" }, { status: 401 })
+        }
+
         // Get User
         const user = await prisma.user.findUnique({
             where: { id: id },
             select: {
+                id: true,
                 first_name: true,
                 last_name: true,
                 email: true,
@@ -39,8 +47,9 @@ export async function GET(request: NextRequest,
                 imageUrl: true,
                 createdAt: true,
                 updatedAt: true,
-                posts: true,
                 role: true,
+                posts: true,
+                comments: true,
             }
         });
         if (!user) {
@@ -49,7 +58,7 @@ export async function GET(request: NextRequest,
         return NextResponse.json(user, { status: 200 });
     } catch (error) {
         return NextResponse.json(
-            { msg: "Failed to fetch users", error: error.message },
+            { msg: "Failed to fetch users", error: (error as Error).message },
             { status: 500 }
         );
     }
@@ -59,7 +68,7 @@ export async function GET(request: NextRequest,
  * @route ~/api/users/:id
  * @method PUT
  * @description Update Single User Data
- * @access Public
+ * @access private (only admin can access this route)
  */
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
     try {
@@ -76,6 +85,12 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 
         const id = parseParams.data.id;
 
+        // Check if user is admin
+        const userFromToken = verifyToken(req);
+        if (userFromToken === null || userFromToken.role !== "ADMIN") {
+            return NextResponse.json({ msg: "Unauthorized" }, { status: 401 })
+        }
+
         // User Not Found 404
         const existingUser = await prisma.user.findUnique({ where: { id } });
 
@@ -90,7 +105,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
         const validation = updateUserSchema.safeParse(body);
 
         if (!validation.success) {
-            return NextResponse.json({ msg: "Failed to update user data.", error: validation.error.message }, { status: 400 })
+            return NextResponse.json({ msg: "Failed to update user data.", errors: z.flattenError(validation.error).fieldErrors }, { status: 400 })
         };
 
         // Hash Password
@@ -99,7 +114,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
             hashedPassword = await bcrypt.hash(body.password, 10);
         }
 
-        const user: User = await prisma.user.update({
+        const user = await prisma.user.update({
             where: { id: id },
             data: {
                 first_name: body.first_name,
@@ -123,7 +138,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
         return NextResponse.json({ msg: "User updated Successfully.", data: user }, { status: 200 })
 
     } catch (error) {
-        return NextResponse.json({ msg: "Failed to update user.", error: error.message }, { status: 500 })
+        return NextResponse.json({ msg: "Failed to update user.", error: (error as Error).message }, { status: 500 })
     }
 }
 
@@ -131,7 +146,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
  * @route ~/api/users/:id
  * @method DELETE
  * @description Delete Single User
- * @access Public
+ * @access private (only admin can access this route)
  */
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
     try {
@@ -146,6 +161,12 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
         }
 
         const id = parseParams.data.id;
+
+        // Check if user is admin
+        const userFromToken = verifyToken(req);
+        if (userFromToken === null || userFromToken.role !== "ADMIN") {
+            return NextResponse.json({ msg: "Unauthorized" }, { status: 401 })
+        }
 
         // User Not Found 404
         const existingUser = await prisma.user.findUnique({ where: { id } });
@@ -170,6 +191,6 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
 
         return NextResponse.json({ msg: "User Deleted Successfully" }, { status: 200 })
     } catch (error) {
-        return NextResponse.json({ msg: "Couldn't delete the user", error: error.message }, { status: 500 })
+        return NextResponse.json({ msg: "Couldn't delete the user", error: (error as Error).message }, { status: 500 })
     }
 }

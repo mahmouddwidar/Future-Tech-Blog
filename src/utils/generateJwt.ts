@@ -1,4 +1,4 @@
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { PayLoad } from "./type";
 import { serialize } from "cookie";
 
@@ -10,7 +10,7 @@ export function generateJwt(payLoad: PayLoad): string {
 };
 
 
-export function setCookie(payLoad: JwtPayload) {
+export function setCookie(payLoad: PayLoad) {
     const token = generateJwt(payLoad);
 
     const cookie = serialize("token", token, {
