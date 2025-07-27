@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 
 async function main() {
     const adminEmail = 'root@root.com';
-    const adminPassword = 'root';
+    const adminPassword = 'rootroot';
     const hashedPassword = await bcrypt.hash(adminPassword, 10);
 
     // Upsert admin user
