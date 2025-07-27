@@ -12,38 +12,40 @@ import { NextRequest, NextResponse } from "next/server";
  * @access Public
  */
 export async function GET(request: NextRequest) {
-    const pageNumber = request.nextUrl.searchParams.get("pageNumber") || "1";
-
     try {
-        const posts = await prisma.post.findMany({
-            select: {
-                id: true,
-                title: true,
-                content: true,
-                category: true,
-                author: {
-                    select: {
-                        id: true,
-                        first_name: true,
-                        last_name: true,
-                        email: true,
-                        imageUrl: true,
-                        bio: true,
-                    }
+        const pageNumber = request.nextUrl.searchParams.get("pageNumber") || "1";
+        const [posts, count] = await Promise.all([
+            prisma.post.findMany({
+                select: {
+                    id: true,
+                    title: true,
+                    content: true,
+                    category: true,
+                    author: {
+                        select: {
+                            id: true,
+                            first_name: true,
+                            last_name: true,
+                            email: true,
+                            imageUrl: true,
+                            bio: true,
+                        }
+                    },
+                    imageUrl: true,
+                    createdAt: true,
+                    updatedAt: true,
                 },
-                imageUrl: true,
-                createdAt: true,
-                updatedAt: true,
-            },
-            skip: POSTS_PER_PAGE * (parseInt(pageNumber) - 1),
-            take: POSTS_PER_PAGE,
-        });
+                skip: POSTS_PER_PAGE * (parseInt(pageNumber) - 1),
+                take: POSTS_PER_PAGE,
+            }),
+            prisma.post.count(),
+        ]);
 
         // No Posts Found 404
         if (!posts || posts.length === 0) {
             return NextResponse.json({ msg: "No posts found" }, { status: 404 });
         }
-        return NextResponse.json(posts, { status: 200 });
+        return NextResponse.json({ count, posts }, { status: 200 });
 
     } catch (error) {
         return NextResponse.json(
