@@ -2,6 +2,7 @@ import { Post } from "@/generated/prisma";
 import prisma from "@/lib/prisma";
 import { UpdatePostDto } from "@/utils/dtos";
 import { idSchema, updatePostSchema } from "@/utils/validationSchemas";
+import { verifyToken } from "@/utils/verifyToken";
 import { NextRequest, NextResponse } from "next/server";
 
 /**
@@ -57,7 +58,7 @@ export async function GET(request: NextRequest,
         return NextResponse.json(post, { status: 200 });
     } catch (error) {
         return NextResponse.json(
-            { msg: "Failed to fetch users", error: error.message },
+            { msg: "Failed to fetch users", error: (error as Error).message },
             { status: 500 }
         );
     }
@@ -71,6 +72,15 @@ export async function GET(request: NextRequest,
  */
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
     try {
+        // check if user logged in
+        const user = verifyToken(req);
+        if (user === null) {
+            return NextResponse.json({
+                msg: "Unauthorized"
+            }, { status: 401 })
+        }
+
+        // Validate ID
         const parsedParams = idSchema.safeParse(params);
         if (!parsedParams.success) {
             return NextResponse.json(
@@ -80,10 +90,17 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
         }
 
         const id = parsedParams.data.id;
+
         const existingPost = await prisma.post.findUnique({ where: { id } });
 
         if (!existingPost) {
             return NextResponse.json({ msg: 'Post not found.' }, { status: 404 });
+        }
+
+        if (user.id !== existingPost.authorId) {
+            return NextResponse.json({
+                msg: "You are not allowed to edit this post"
+            }, { status: 403 })
         }
 
         const body = (await req.json()) as UpdatePostDto;
@@ -122,9 +139,9 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
         });
 
         return NextResponse.json({ msg: 'Post updated successfully.', data: post }, { status: 200 });
-    } catch (error: any) {
+    } catch (error) {
         return NextResponse.json(
-            { msg: 'Failed to update post.', error: error.message },
+            { msg: 'Failed to update post.', error: (error as Error).message },
             { status: 500 }
         );
     }
@@ -139,6 +156,14 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
  */
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
     try {
+        // check if user logged in
+        const user = verifyToken(req);
+        if (user === null) {
+            return NextResponse.json({
+                msg: "Unauthorized"
+            }, { status: 401 })
+        }
+
         // Invalid Post Data
         const parseParams = idSchema.safeParse(params);
 
@@ -152,21 +177,32 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
         const id = parseParams.data.id;
 
         // Post Not Found 404
-        const existingUser = await prisma.post.findUnique({ where: { id } });
+        const existingPost = await prisma.post.findUnique({ where: { id } });
 
-        if (!existingUser) {
+        if (!existingPost) {
             return NextResponse.json({ msg: "Post not found." }, { status: 404 });
         }
 
         // Delete Post
-        await prisma.post.delete({
-            where: {
-                id: id
-            }
-        });
+        if (user.id === existingPost.authorId || user.role === 'ADMIN') {
+            await prisma.post.delete({
+                where: {
+                    id: id
+                }
+            });
 
-        return NextResponse.json({ msg: "Post Deleted Successfully" }, { status: 200 })
+            return NextResponse.json({
+                msg: "Post Deleted"
+            }, { status: 200 });
+        }
+
+        return NextResponse.json({
+            msg: "You are not allowed to delete this post"
+        }, { status: 403 });
+
+
+
     } catch (error) {
-        return NextResponse.json({ msg: "Couldn't delete the post", error: error.message }, { status: 500 })
+        return NextResponse.json({ msg: "Couldn't delete the post", error: (error as Error).message }, { status: 500 })
     }
 }

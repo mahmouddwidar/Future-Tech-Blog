@@ -1,6 +1,8 @@
 import prisma from "@/lib/prisma";
+import { POSTS_PER_PAGE } from "@/utils/constants";
 import { CreatePostDto } from "@/utils/dtos";
 import { createPostSchema } from "@/utils/validationSchemas";
+import { verifyToken } from "@/utils/verifyToken";
 import { NextRequest, NextResponse } from "next/server";
 
 /**
@@ -9,7 +11,9 @@ import { NextRequest, NextResponse } from "next/server";
  * @description Retrieves a list of all posts from the database
  * @access Public
  */
-export async function GET() {
+export async function GET(request: NextRequest) {
+    const pageNumber = request.nextUrl.searchParams.get("pageNumber") || "1";
+
     try {
         const posts = await prisma.post.findMany({
             select: {
@@ -30,8 +34,12 @@ export async function GET() {
                 imageUrl: true,
                 createdAt: true,
                 updatedAt: true,
-            }
+            },
+            skip: POSTS_PER_PAGE * (parseInt(pageNumber) - 1),
+            take: POSTS_PER_PAGE,
         });
+
+        // No Posts Found 404
         if (!posts || posts.length === 0) {
             return NextResponse.json({ msg: "No posts found" }, { status: 404 });
         }
@@ -39,7 +47,7 @@ export async function GET() {
 
     } catch (error) {
         return NextResponse.json(
-            { msg: "Failed to fetch posts", error: error.message },
+            { msg: "Failed to fetch posts", error: (error as Error).message },
             { status: 500 }
         );
     }
@@ -49,10 +57,19 @@ export async function GET() {
  * @method POST
  * @route ~/api/posts
  * @description Create new post
- * @access Public
+ * @access private only authenticated users
  */
 export async function POST(req: NextRequest) {
     try {
+
+        // check if user logged in
+        const user = verifyToken(req);
+        if (user === null) {
+            return NextResponse.json({
+                msg: "Unauthorized"
+            }, { status: 401 })
+        }
+
         const body = (await req.json()) as CreatePostDto;
 
 
