@@ -30,25 +30,30 @@ export async function GET(request: NextRequest,
         // Get Post
         const post = await prisma.post.findUnique({
             where: { id: id },
-            select: {
-                id: true,
-                title: true,
-                content: true,
-                category: true,
+            include: {
                 author: {
                     select: {
                         id: true,
                         first_name: true,
                         last_name: true,
-                        email: true,
                         imageUrl: true,
-                        bio: true,
                     }
                 },
-                imageUrl: true,
-                comments: true,
-                createdAt: true,
-                updatedAt: true,
+                comments: {
+                    orderBy: {
+                        createdAt: "desc",
+                    },
+                    include: {
+                        author: {
+                            select: {
+                                id: true,
+                                first_name: true,
+                                last_name: true,
+                                imageUrl: true,
+                            }
+                        }
+                    }
+                }
             }
         });
 
