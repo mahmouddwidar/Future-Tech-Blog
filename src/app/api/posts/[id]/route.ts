@@ -190,6 +190,13 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
 
         // Delete Post
         if (user.id === existingPost.authorId || user.role === 'ADMIN') {
+            // Delete Related Comments
+            await prisma.comment.deleteMany({
+                where: {
+                    postId: existingPost.id
+                }
+            })
+            
             await prisma.post.delete({
                 where: {
                     id: id

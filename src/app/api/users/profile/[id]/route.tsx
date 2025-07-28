@@ -1,11 +1,12 @@
 import prisma from "@/lib/prisma";
-import { idSchema } from "@/utils/validationSchemas";
+import { idSchema, updateUserSchema } from "@/utils/validationSchemas";
 import { NextRequest, NextResponse } from "next/server";
 import { JwtPayload } from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { verifyToken } from "@/utils/verifyToken";
 import { UpdateUserDto } from "@/utils/dtos";
 import bcrypt from "bcrypt";
+import z from "zod";
 
 interface Props {
 	params: { id: string };
@@ -126,6 +127,14 @@ export async function PUT(req: NextRequest, { params }: Props) {
 		}
 
 		const body = (await req.json()) as UpdateUserDto;
+		const validation = updateUserSchema.safeParse(body);
+
+		if ( !validation.success ) {
+			return NextResponse.json({
+				msg: "Failed to update your profile",
+				errors: z.flattenError(validation.error).fieldErrors
+			});
+		}
 
 		if (body.password) {
 			body.password = await bcrypt.hash(body.password, 10);
@@ -143,7 +152,7 @@ export async function PUT(req: NextRequest, { params }: Props) {
 			},
 		});
 
-		const { password, role, ...userData } = updatedUser;
+		const { password, ...userData } = updatedUser;
 		return NextResponse.json(
 			{
 				msg: "User Profile Updated Successfully",
