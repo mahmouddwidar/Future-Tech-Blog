@@ -8,7 +8,7 @@ const navigationLinks: NavigationLink[] = [
     },
     {
         id: 2,
-        href: "/blogs",
+        href: "/blogs?pageNumber=1",
         text: "Blogs"
     },
     {
