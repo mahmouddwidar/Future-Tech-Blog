@@ -4,7 +4,7 @@ import { createUserSchema } from "@/utils/validationSchemas";
 import { NextRequest, NextResponse } from "next/server";
 import bycrpt from "bcrypt";
 import { User } from "@/generated/prisma";
-import { generateJwt, setCookie } from "@/utils/generateJwt";
+import { setCookie } from "@/utils/generateJwt";
 import { PayLoad } from "@/utils/type";
 
 /**
@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
         if (!validation.success) {
             return NextResponse.json({
                 msg: "Invalid user data",
-                errors: validation.error.issues[0].message
+                errors: validation.error.issues[0]
             }, { status: 400 })
         }
 
@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
         const cookie = setCookie(payLoad);
 
         return NextResponse.json(
-            { msg: "User Created Successfully" }, { status: 201, headers: { "Set-Cookie": cookie } }
+            { msg: "Account Created Successfully" }, { status: 201, headers: { "Set-Cookie": cookie } }
         );
     } catch (error) {
         console.error("Error in user registration:", error);

@@ -1,7 +1,50 @@
+"use client";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
+import { useForm } from "react-hook-form";
+import z from "zod";
+import { LoginSchema } from "@/utils/validationSchemas";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useTransition } from "react";
+import { handleLoginFormSubmit } from "@/apiCalls/LoginApiCall";
+import { useRouter } from "next/navigation";
+import { showToast } from "@/lib/toast";
 
 export default function LoginPage() {
+	const router = useRouter();
+	const [isLoading, startTransition] = useTransition();
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<z.infer<typeof LoginSchema>>({
+		resolver: zodResolver(LoginSchema),
+		defaultValues: {
+			email: "",
+			password: "",
+		},
+	});
+
+	const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
+		console.log(values);
+		startTransition(async () => {
+			try {
+				const data = await handleLoginFormSubmit(values);
+				console.log(data);
+				if (data.error) {
+					console.error(data.message);
+					showToast.error(data.message);
+				} else {
+					showToast.success(data.message);
+					router.push("/");
+				}
+			} catch (error) {
+				console.error("Login failed:", error);
+				showToast.error("Login failed. Please try again.");
+			}
+		});
+	};
+
 	return (
 		<main className="min-h-screen flex items-center justify-center bg-dark-8 px-4 py-8 sm:py-12 md:py-16">
 			<div className="w-full max-w-[320px] sm:max-w-[380px] md:max-w-[440px]">
@@ -14,7 +57,11 @@ export default function LoginPage() {
 					</p>
 				</div>
 
-				<form className="bg-dark-10 border border-dark-15 rounded-xl p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6">
+				<form
+					onSubmit={handleSubmit(onSubmit)}
+					className="bg-dark-10 border border-dark-15 rounded-xl p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6"
+				>
+					{/* Email */}
 					<div className="space-y-1.5 sm:space-y-2">
 						<label
 							htmlFor="email"
@@ -23,13 +70,20 @@ export default function LoginPage() {
 							Email Address
 						</label>
 						<input
+							{...register("email")}
 							type="email"
 							id="email"
 							className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-dark-8 border border-dark-15 rounded-lg text-white text-sm sm:text-base focus:outline-none focus:border-primary-55 focus:ring-1 focus:ring-primary-55"
 							placeholder="Enter your email"
 						/>
+						{errors.email && (
+							<p className="text-red-500 text-xs sm:text-sm">
+								{errors.email.message}
+							</p>
+						)}
 					</div>
 
+					{/* Password */}
 					<div className="space-y-1.5 sm:space-y-2">
 						<label
 							htmlFor="password"
@@ -38,20 +92,17 @@ export default function LoginPage() {
 							Password
 						</label>
 						<input
+							{...register("password")}
 							type="password"
 							id="password"
 							className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-dark-8 border border-dark-15 rounded-lg text-white text-sm sm:text-base focus:outline-none focus:border-primary-55 focus:ring-1 focus:ring-primary-55"
 							placeholder="Enter your password"
 						/>
-					</div>
-
-					<div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-2">
-						<Link
-							href="/forgot-password"
-							className="text-sm sm:text-base text-primary-55 hover:text-primary-60 font-inter"
-						>
-							Forgot Password?
-						</Link>
+						{errors.password && (
+							<p className="text-red-500 text-xs sm:text-sm">
+								{errors.password.message}
+							</p>
+						)}
 					</div>
 
 					<Button
@@ -59,9 +110,11 @@ export default function LoginPage() {
 						variant="primary"
 						size="md"
 						fullWidth
-						className="mt-6 sm:mt-8 hover:bg-primary-60 cursor-pointer"
+						className={`mt-4 sm:mt-6 ${
+							isLoading ? "opacity-30 cursor-not-allowed" : "cursor-pointer"
+						}`}
 					>
-						Sign In
+						{isLoading ? "Loading..." : "Login"}
 					</Button>
 
 					<p className="text-center text-sm sm:text-base text-grey-60 font-inter">

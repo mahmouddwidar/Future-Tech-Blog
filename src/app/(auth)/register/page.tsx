@@ -1,7 +1,53 @@
+"use client";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
+import { useForm } from "react-hook-form";
+import z from "zod";
+import { registerSchema } from "@/utils/validationSchemas";
+import { useTransition } from "react";
+import { showToast } from "@/lib/toast";
+import { handleRegisterFormSubmit } from "@/apiCalls/registerApiCall";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 
 export default function SignUpPage() {
+	const router = useRouter();
+	const [isLoading, startTransition] = useTransition();
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm({
+		resolver: zodResolver(registerSchema),
+		defaultValues: {
+			first_name: "asa",
+			last_name: "",
+			email: "m@n.com",
+			password: "12345678",
+			confirmPassword: "12345678",
+		},
+	});
+
+	const onSubmit = async (values: z.infer<typeof registerSchema>) => {
+		console.log(values);
+
+		startTransition(async () => {
+			try {
+				const data = await handleRegisterFormSubmit(values);
+				console.log(data)
+				if (data.error) {
+					console.error(data.message);
+					showToast.error(data.message);
+				} else {
+					showToast.success(data.message);
+					router.push("/");
+				}
+			} catch (error) {
+				console.error("Login failed:", error);
+				showToast.error("Registration Failed, please try again.");
+			}
+		});
+	};
 	return (
 		<main className="min-h-screen flex items-center justify-center bg-dark-8 px-4 py-8 sm:py-12 md:py-16">
 			<div className="w-full max-w-[320px] sm:max-w-[380px] md:max-w-[440px]">
@@ -14,7 +60,10 @@ export default function SignUpPage() {
 					</p>
 				</div>
 
-				<form className="bg-dark-10 border border-dark-15 rounded-xl p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6">
+				<form
+					onSubmit={handleSubmit(onSubmit)}
+					className="bg-dark-10 border border-dark-15 rounded-xl p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6"
+				>
 					<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
 						<div className="space-y-1.5 sm:space-y-2">
 							<label
@@ -24,11 +73,17 @@ export default function SignUpPage() {
 								First Name
 							</label>
 							<input
+								{...register("first_name")}
 								type="text"
 								id="firstName"
 								className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-dark-8 border border-dark-15 rounded-lg text-white text-sm sm:text-base focus:outline-none focus:border-primary-55 focus:ring-1 focus:ring-primary-55"
 								placeholder="Enter first name"
 							/>
+							{errors.first_name && (
+								<p className="text-red-500 text-xs sm:text-sm">
+									{errors.first_name.message}
+								</p>
+							)}
 						</div>
 
 						<div className="space-y-1.5 sm:space-y-2">
@@ -39,11 +94,17 @@ export default function SignUpPage() {
 								Last Name
 							</label>
 							<input
+								{...register("last_name")}
 								type="text"
 								id="lastName"
 								className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-dark-8 border border-dark-15 rounded-lg text-white text-sm sm:text-base focus:outline-none focus:border-primary-55 focus:ring-1 focus:ring-primary-55"
 								placeholder="Enter last name"
 							/>
+							{errors.last_name && (
+								<p className="text-red-500 text-xs sm:text-sm">
+									{errors.last_name.message}
+								</p>
+							)}
 						</div>
 					</div>
 
@@ -55,11 +116,17 @@ export default function SignUpPage() {
 							Email Address
 						</label>
 						<input
+							{...register("email")}
 							type="email"
 							id="email"
 							className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-dark-8 border border-dark-15 rounded-lg text-white text-sm sm:text-base focus:outline-none focus:border-primary-55 focus:ring-1 focus:ring-primary-55"
 							placeholder="Enter your email"
 						/>
+						{errors.email && (
+							<p className="text-red-500 text-xs sm:text-sm">
+								{errors.email.message}
+							</p>
+						)}
 					</div>
 
 					<div className="space-y-1.5 sm:space-y-2">
@@ -70,11 +137,17 @@ export default function SignUpPage() {
 							Password
 						</label>
 						<input
+							{...register("password")}
 							type="password"
 							id="password"
 							className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-dark-8 border border-dark-15 rounded-lg text-white text-sm sm:text-base focus:outline-none focus:border-primary-55 focus:ring-1 focus:ring-primary-55"
 							placeholder="Create password"
 						/>
+						{errors.password && (
+							<p className="text-red-500 text-xs sm:text-sm">
+								{errors.password.message}
+							</p>
+						)}
 					</div>
 
 					<div className="space-y-1.5 sm:space-y-2">
@@ -85,39 +158,17 @@ export default function SignUpPage() {
 							Confirm Password
 						</label>
 						<input
+							{...register("confirmPassword")}
 							type="password"
 							id="confirmPassword"
 							className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-dark-8 border border-dark-15 rounded-lg text-white text-sm sm:text-base focus:outline-none focus:border-primary-55 focus:ring-1 focus:ring-primary-55"
 							placeholder="Confirm password"
 						/>
-					</div>
-
-					<div className="flex items-start space-x-2">
-						<input
-							type="checkbox"
-							id="terms"
-							className="mt-1 w-4 h-4 border border-dark-15 rounded bg-dark-8 focus:ring-primary-55 focus:ring-offset-0"
-						/>
-						<label
-							htmlFor="terms"
-							className="text-xs sm:text-sm text-grey-60 font-inter"
-						>
-							I agree to receive news and updates from FutureTech AI News and
-							accept the{" "}
-							<Link
-								href="/terms"
-								className="text-primary-55 hover:text-primary-60"
-							>
-								Terms of Service
-							</Link>{" "}
-							and{" "}
-							<Link
-								href="/privacy"
-								className="text-primary-55 hover:text-primary-60"
-							>
-								Privacy Policy
-							</Link>
-						</label>
+						{errors.confirmPassword && (
+							<p className="text-red-500 text-xs sm:text-sm">
+								{errors.confirmPassword.message}
+							</p>
+						)}
 					</div>
 
 					<Button
@@ -125,9 +176,13 @@ export default function SignUpPage() {
 						variant="primary"
 						size="md"
 						fullWidth
-						className="mt-6 sm:mt-8 hover:bg-primary-60 cursor-pointer"
+						className={`mt-6 sm:mt-8 ${
+							isLoading
+								? "cursor-not-allowed opacity-30"
+								: "hover:bg-primary-60 cursor-pointer"
+						}`}
 					>
-						Create Account
+						{isLoading ? "Loading..." : "Create Account"}
 					</Button>
 
 					<p className="text-center text-sm sm:text-base text-grey-60 font-inter">

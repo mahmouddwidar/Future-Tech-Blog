@@ -3,6 +3,7 @@ import "./globals.css";
 import Navigation from "@/components/Navigation/Navigation";
 import { inter, kumbhSans } from "./fonts";
 import Footer from "@/components/Footer/Footer";
+import ToastProvider from "@/components/ToastProvider";
 
 export const metadata: Metadata = {
 	title: "Future Tech",
@@ -21,6 +22,7 @@ export default function RootLayout({
 			>
 				<Navigation />
 				{children}
+				<ToastProvider />
 				<Footer />
 			</body>
 		</html>
