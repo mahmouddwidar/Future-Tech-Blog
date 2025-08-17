@@ -23,3 +23,9 @@ export interface PostWithAuthor {
     createdAt: Date;
     updatedAt: Date;
 }
+
+export interface NavLink {
+    id: number,
+    href: string,
+    text: string
+}

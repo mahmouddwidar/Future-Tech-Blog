@@ -1,13 +1,17 @@
-"use client";
 import Image from "next/image";
 import ArrowUpRight from "../icons/arrowUpRight";
 import BarsBottom from "../icons/BarsBottom";
 import { navigationLinks } from "@/utils/content";
 import Link from "next/link";
-import { useActivePath } from "@/hooks/useActivePath";
+import NavLink from './NavLink';
+import { cookies } from "next/headers";
+import { verifyTokenForPages } from "@/utils/verifyToken";
+import LogoutBtn from "./LogoutBtn";
 
-export default function Navigation() {
-	const isActivePath = useActivePath();
+export default async function Navigation() {
+	const token = (await cookies()).get('token')?.value as string;
+	const userFromToken = verifyTokenForPages(token);
+	// console.log(userFromToken)
 
 	return (
 		<header className="bg-dark-8">
@@ -38,23 +42,25 @@ export default function Navigation() {
 					{/* Desktop Menu */}
 					<ul className="hidden lg:flex text-white justify-between items-center gap-6 font-inter">
 						{navigationLinks.map((link) => (
-							<li
-								key={link.id}
-								className={`${
-									isActivePath(link.href) ? "active" : ""
-								} py-2.5 px-4.5 rounded-md text-grey-50`}
-							>
-								<Link href={link.href}>{link.text}</Link>
-							</li>
+							<NavLink key={link.id} link={link} />
 						))}
 					</ul>
 
-					<Link
-						href={"/login"}
-						className="py-2.5 px-3.5 text-dark-8 text-sm font-medium bg-primary-55 hover:bg-primary-60 hover:text-dark-15 rounded-md hidden lg:block"
-					>
-						Login
-					</Link>
+					{token ? (
+						<div className="flex justify-between items-center gap-x-3">
+							<Link href={'/profile'} className="text-white hover:underline underline-offset-5" >Profile</Link>
+							<LogoutBtn />
+						</div>
+					)
+						:
+						(<Link
+							href={"/login"}
+							className="py-2.5 px-3.5 text-dark-8 text-sm font-medium bg-primary-55 hover:bg-primary-60 hover:text-dark-15 rounded-md hidden lg:block"
+						>
+							Login
+						</Link>)}
+
+
 				</nav>
 			</div>
 		</header>

@@ -22,7 +22,7 @@ export function Button({
 		primary: "bg-primary-55 hover:bg-primary-60 text-dark-8",
 		secondary: "bg-dark-10 hover:bg-dark-15 text-white",
 		outline:
-			"border border-dark-15 hover:border-primary-55 text-grey-60 hover:text-primary-55",
+			"border border-dark-20 hover:border-primary-70 text-white hover:text-primary-55 hover:cursor-pointer transition-all duration-150",
 	};
 
 	const sizes = {

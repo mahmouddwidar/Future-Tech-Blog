@@ -20,11 +20,11 @@ export default function SignUpPage() {
 	} = useForm({
 		resolver: zodResolver(registerSchema),
 		defaultValues: {
-			first_name: "asa",
+			first_name: "",
 			last_name: "",
-			email: "m@n.com",
-			password: "12345678",
-			confirmPassword: "12345678",
+			email: "",
+			password: "",
+			confirmPassword: "",
 		},
 	});
 
@@ -41,6 +41,7 @@ export default function SignUpPage() {
 				} else {
 					showToast.success(data.message);
 					router.push("/");
+					router.refresh();
 				}
 			} catch (error) {
 				console.error("Login failed:", error);

@@ -30,13 +30,13 @@ export default function LoginPage() {
 		startTransition(async () => {
 			try {
 				const data = await handleLoginFormSubmit(values);
-				console.log(data);
 				if (data.error) {
 					console.error(data.message);
 					showToast.error(data.message);
 				} else {
 					showToast.success(data.message);
 					router.push("/");
+					router.refresh();
 				}
 			} catch (error) {
 				console.error("Login failed:", error);
