@@ -29,3 +29,25 @@ export interface NavLink {
     href: string,
     text: string
 }
+
+type Author = {
+    id: number,
+    first_name: string,
+    last_name: string,
+    imageUrl: string | null,
+}
+
+
+export interface Post {
+    id: number,
+    title: string,
+    content: string,
+    imageUrl: string | null,
+    category: string,
+    authorId: number,
+    updatedAt: Date,
+    createdAt: Date,
+    author?: Author,
+    comments?: Author[],
+
+}

@@ -5,6 +5,7 @@ import SectionTitle from "../SectionTitle";
 import { PostWithAuthor } from "@/utils/type";
 import { useSearchParams } from "next/navigation";
 import { getPosts } from "@/apiCalls/postApiCall";
+import ArticlesSkeleton from "../skeletons/ArticlesSkeleton";
 
 export default function Articles() {
 	const [posts, setPosts] = useState<PostWithAuthor[]>([]);
@@ -30,13 +31,7 @@ export default function Articles() {
 
 	if (loading) {
 		return (
-			<div className="pb-12 sm:pb-16 md:pb-20">
-				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-					<div className="py-8 sm:py-10 md:py-12">
-						<p>Loading articles...</p>
-					</div>
-				</div>
-			</div>
+			<ArticlesSkeleton />
 		);
 	}
 

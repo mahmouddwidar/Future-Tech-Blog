@@ -1,8 +1,11 @@
 import Image from "next/image";
-// import { CalendarIcon, ClockIcon } from "@/components/icons";
+import CalenderIcon from "../icons/CalenderIcon";
+import ClockIcon from "../icons/ClockIcon";
+import Link from "next/link";
+import { Post } from "@/utils/type";
 
-export default function BlogHeader({ post }: { post: any }) {
-    // console.log("post", post)
+export default function BlogHeader({ post }: { post: Post }) {
+    console.log(post)
     return (
         <div className="flex flex-col gap-8">
             <div>
@@ -17,40 +20,49 @@ export default function BlogHeader({ post }: { post: any }) {
 
             <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
                 <div className="flex items-center gap-3">
-                    <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-primary-55">
-                        {/* <Image
-                            src={post.author.image}
-                            alt={post.author.name}
-                            fill
-                            className="object-cover"
-                        /> */}
+                    <div className="flex justify-center items-center w-10 h-10 rounded-full overflow-hidden border-2 border-primary-55">
+                        {post.author.imageUrl ? (
+                            <Image
+                                src={post.author.imageUrl}
+                                alt={post.author.first_name}
+                                fill
+                                className="object-cover"
+                            />
+                        ) : (
+                            <p className="flex justify-center items-center bg-dark-8 text-grey-70 font-semibold w-full h-full">{post.author.first_name[0]}</p>
+                        )}
+
                     </div>
                     <div>
                         <p className="text-white font-medium">{post.author.first_name}</p>
-                        {/* <p className="text-grey-60 text-sm">{post.author.role}</p> */}
                     </div>
                 </div>
 
                 <div className="flex gap-4 text-grey-60 text-sm">
                     <div className="flex items-center gap-1.5">
-                        {/* <CalendarIcon className="w-4 h-4" /> */}
-                        <span>{post.createdAt}</span>
+                        <CalenderIcon className="size-4 fill-white" />
+                        <span>{new Date(post.createdAt).toLocaleString()}</span>
                     </div>
                     <div className="flex items-center gap-1.5">
-                        {/* <ClockIcon className="w-4 h-4" /> */}
+                        <ClockIcon className="size-4 fill-white" />
                         <span>{10} min read</span>
                     </div>
                 </div>
+                {(post.authorId == post.author.id) && <Link className="px-3 py-1 bg-primary-55 hover:bg-primary-60 transition-colors hover:text-black font-inter duration-100 rounded text-dark-8 ms-auto" href={`/blogs/${post.id}/edit`}>Edit post</Link>}
             </div>
 
             <div className="relative aspect-video rounded-xl overflow-hidden border border-dark-15">
-                <Image
-                    src={post.imageUrl}
-                    alt={post.title}
-                    fill
-                    className="object-cover"
-                    priority
-                />
+                {post.imageUrl ? (
+                    <Image
+                        src={post.imageUrl}
+                        alt={post.title}
+                        fill
+                        className="object-cover"
+                        priority
+                    />
+                ) : (
+                    <p className="w-full h-full flex justify-center items-center bg-dark-8 text-grey-70 text-sm">No Image</p>
+                )}
             </div>
         </div>
     );

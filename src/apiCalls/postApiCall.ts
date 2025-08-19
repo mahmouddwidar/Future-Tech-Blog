@@ -7,7 +7,7 @@ interface PostsResponse {
 }
 
 export async function getPosts(pageNumber: string | undefined): Promise<PostWithAuthor[]> {
-    const response = await fetch(`http://localhost:3000/api/posts?pageNumber=${pageNumber}`);
+    const response = await fetch(`http://localhost:3000/api/posts?pageNumber=${pageNumber ? pageNumber : 1}`);
     if (!response.ok) {
         throw new Error("Failed to fetch blogs!")
     }

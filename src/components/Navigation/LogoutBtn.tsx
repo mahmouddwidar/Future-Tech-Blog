@@ -17,6 +17,6 @@ export default function LogoutBtn() {
         }
     }
     return (
-        <Button onClick={handleLogout} className='transition-all duration-100 hidden lg:block' size='sm' variant='outline'>Logout</Button>
+        <Button onClick={handleLogout} className='transition-all duration-100' size='sm' variant='outline'>Logout</Button>
     )
 }

@@ -12,7 +12,7 @@ export default function ArticleCard({
 }) {
 	return (
 		<article
-			className={`group transition-all duration-300 hover:bg-dark-10 rounded-xl cursor-pointer ${isFeatured
+			className={`group transition-all duration-300 hover:bg-dark-10 rounded-xl ${isFeatured
 				? "grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 p-5"
 				: "flex flex-col overflow-hidden border border-dark-15 hover:shadow-lg"
 				}`}

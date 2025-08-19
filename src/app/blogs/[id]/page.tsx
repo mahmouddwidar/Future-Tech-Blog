@@ -23,15 +23,6 @@ export default async function BlogPostPage({
             <div className="container mx-auto px-4 py-16 max-w-3xl">
                 <BlogContent content={post.content} />
             </div>
-
-            {/* Related Posts */}
-            {/* {relatedPosts.length > 0 && (
-                <div className="border-t border-dark-15 py-16 bg-dark-10">
-                    <div className="container mx-auto px-4 max-w-6xl">
-                        <RelatedPosts posts={relatedPosts} />
-                    </div>
-                </div>
-            )} */}
         </div>
     );
 }

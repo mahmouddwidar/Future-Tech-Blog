@@ -36,9 +36,6 @@ export default async function Navigation() {
 						/>
 					</Link>
 
-					{/* Mobile Menu */}
-					<BarsBottom className="fill-white size-8.5 cursor-pointer block lg:hidden hover:fill-grey-80" />
-
 					{/* Desktop Menu */}
 					<ul className="hidden lg:flex text-white justify-between items-center gap-6 font-inter">
 						{navigationLinks.map((link) => (
@@ -46,21 +43,24 @@ export default async function Navigation() {
 						))}
 					</ul>
 
-					{token ? (
-						<div className="flex justify-between items-center gap-x-3">
-							<Link href={'/profile'} className="text-white hover:underline underline-offset-5" >Profile</Link>
-							<LogoutBtn />
-						</div>
-					)
-						:
-						(<Link
-							href={"/login"}
-							className="py-2.5 px-3.5 text-dark-8 text-sm font-medium bg-primary-55 hover:bg-primary-60 hover:text-dark-15 rounded-md hidden lg:block"
-						>
-							Login
-						</Link>)}
+					<div className="flex justify-between items-center gap-x-4">
+						{token ? (
+							<div className="flex justify-between items-center gap-x-3">
+								<Link href={'/profile'} className="text-white hover:underline underline-offset-5 hidden lg:block" >Profile</Link>
+								<LogoutBtn />
+							</div>
+						)
+							:
+							(<Link
+								href={"/login"}
+								className="py-2.5 px-3.5 text-dark-8 text-sm font-medium bg-primary-55 hover:bg-primary-60 hover:text-dark-15 rounded-md hidden lg:block"
+							>
+								Login
+							</Link>)}
 
-
+						{/* Mobile Menu */}
+						<BarsBottom className="fill-white size-8.5 cursor-pointer block lg:hidden hover:fill-grey-80" />
+					</div>
 				</nav>
 			</div>
 		</header>
