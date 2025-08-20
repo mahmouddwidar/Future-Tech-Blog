@@ -1,5 +1,4 @@
-import { Post } from "@/generated/prisma";
-import { PostWithAuthor } from "@/utils/type";
+import { PostWithAuthor, SinglePost } from "@/utils/type";
 
 interface PostsResponse {
     count: number;
@@ -16,11 +15,11 @@ export async function getPosts(pageNumber: string | undefined): Promise<PostWith
     return data.posts;
 }
 
-export async function getPostById(id: number) {
+export async function getPostById(id: number): Promise<SinglePost> {
     const response = await fetch(`http://localhost:3000/api/posts/${id}`);
     if (!response.ok) {
         throw new Error("Failed to fetch blogs!")
     }
-    const post: Post = await response.json();
+    const post: SinglePost = await response.json();
     return post;
 }
