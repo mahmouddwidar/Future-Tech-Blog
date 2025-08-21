@@ -1,6 +1,6 @@
 import { Flip, ToastContainer } from "react-toastify";
 
-function ToastProvider() {
+export function ToastProvider() {
 	return (
 		<ToastContainer
 			position="bottom-right"

@@ -63,7 +63,7 @@ export async function GET(request: NextRequest,
         return NextResponse.json(post, { status: 200 });
     } catch (error) {
         return NextResponse.json(
-            { msg: "Failed to fetch users", error: (error as Error).message },
+            { msg: "Failed to fetch the post", error: (error as Error).message },
             { status: 500 }
         );
     }

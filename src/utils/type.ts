@@ -1,7 +1,7 @@
 
 import { Comment } from "@/generated/prisma";
 
-export type PayLoad = {
+export type PayLoad = null | {
     id: number,
     email: string,
     role: string,

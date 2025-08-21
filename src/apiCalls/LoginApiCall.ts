@@ -1,6 +1,7 @@
 import { LoginSchema } from "@/utils/validationSchemas";
 import z from "zod";
 
+
 async function login(values: z.infer<typeof LoginSchema>) {
     const response = await fetch(`/api/users/login`, {
         method: "POST",
@@ -15,7 +16,7 @@ async function login(values: z.infer<typeof LoginSchema>) {
     }
 
     const data = await response.json();
-    return { error: false, message: data.msg };
+    return { error: false, message: data.msg, };
 
 }
 

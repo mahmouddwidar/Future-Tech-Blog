@@ -1,6 +1,7 @@
 import { getPostById } from "@/apiCalls/postApiCall";
 import BlogContent from "@/components/Blog/BlogContent";
 import BlogHeader from "@/components/Blog/BlogHeader";
+import AddCommentForm from "@/components/comments/AddCommentForm";
 import CommentCard from "@/components/comments/CommentCard";
 export default async function BlogPostPage({
     params,
@@ -25,15 +26,17 @@ export default async function BlogPostPage({
             </div>
 
             {/* Comments */}
-            <div className="container mx-auto px-4 py-16 max-w-3xl">
-                <h2 className="text-2xl font-bold mb-4">Comments</h2>
-                {/* Render comments here */}
-                <div className="flex flex-col gap-4">
-                    { post?.comments.map( (comment) => (
-                        <CommentCard key={comment.id} comment={comment} />
-                    )) }
+            { post?.comments && post.comments.length > 0 && (
+                <div className="container mx-auto px-4 py-16 max-w-3xl">
+                    <h2 className="text-2xl font-bold mb-4">Comments</h2>
+                    <AddCommentForm postId={post.id} />
+                    <div className="flex flex-col gap-4">
+                        { post?.comments.map( (comment) => (
+                            <CommentCard key={comment.id} comment={comment} />
+                        )) }
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 }
