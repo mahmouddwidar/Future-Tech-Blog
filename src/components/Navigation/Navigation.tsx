@@ -3,16 +3,10 @@ import ArrowUpRight from "../icons/arrowUpRight";
 import BarsBottom from "../icons/BarsBottom";
 import { navigationLinks } from "@/utils/content";
 import Link from "next/link";
-import NavLink from './NavLink';
-import { cookies } from "next/headers";
-import { verifyTokenForPages } from "@/utils/verifyToken";
+import NavLink from "./NavLink";
 import LogoutBtn from "./LogoutBtn";
 
 export default async function Navigation() {
-	const token = (await cookies()).get('token')?.value as string;
-	const userFromToken = verifyTokenForPages(token);
-	// console.log(userFromToken)
-
 	return (
 		<header className="bg-dark-8">
 			{/* Outer Link */}
@@ -44,19 +38,7 @@ export default async function Navigation() {
 					</ul>
 
 					<div className="flex justify-between items-center gap-x-4">
-						{token ? (
-							<div className="flex justify-between items-center gap-x-3">
-								<Link href={'/profile'} className="text-white hover:underline underline-offset-5 hidden lg:block" >Profile</Link>
-								<LogoutBtn />
-							</div>
-						)
-							:
-							(<Link
-								href={"/login"}
-								className="py-2.5 px-3.5 text-dark-8 text-sm font-medium bg-primary-55 hover:bg-primary-60 hover:text-dark-15 rounded-md hidden lg:block"
-							>
-								Login
-							</Link>)}
+						<LogoutBtn />
 
 						{/* Mobile Menu */}
 						<BarsBottom className="fill-white size-8.5 cursor-pointer block lg:hidden hover:fill-grey-80" />

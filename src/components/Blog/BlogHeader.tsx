@@ -1,15 +1,14 @@
+"use client";
 import Image from "next/image";
 import CalenderIcon from "../icons/CalenderIcon";
 import ClockIcon from "../icons/ClockIcon";
 import Link from "next/link";
 import { SinglePost } from "@/utils/type";
-import { verifyTokenForPages } from "@/utils/verifyToken";
-import { cookies } from "next/headers";
 import AuthorImage from "./AuthorImage";
+import { userStore } from "@/store/user";
 
-export default async function BlogHeader({ post }: { post: SinglePost }) {
-	const token = (await cookies()).get("token")?.value;
-	const userFromToken = verifyTokenForPages(token);
+export default function BlogHeader({ post }: { post: SinglePost }) {
+	const user = userStore( (state) => state.user )
 
 	return (
 		<div className="flex flex-col gap-8">
@@ -45,7 +44,7 @@ export default async function BlogHeader({ post }: { post: SinglePost }) {
 					</div>
 				</div>
 
-				{userFromToken?.id == post.authorId && (
+				{user?.id == post.authorId && (
 					<Link
 						className="px-3 py-1 bg-primary-55 hover:bg-primary-60 transition-colors hover:text-black font-inter duration-100 rounded text-dark-8 ms-auto"
 						href={`/blogs/${post.id}/edit`}

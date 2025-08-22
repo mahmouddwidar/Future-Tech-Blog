@@ -9,11 +9,15 @@ import { useTransition } from "react";
 import { handleLoginFormSubmit } from "@/apiCalls/LoginApiCall";
 import { useRouter } from "next/navigation";
 import { showToast } from "@/lib/toast";
+import { getServerUser } from "@/actions/auth";
+import { userStore } from "@/store/user";
+import { PayLoad } from "@/utils/type";
 
 export default function LoginPage() {
 	const router = useRouter();
 	const [isLoading, startTransition] = useTransition();
-	
+	const setUser = userStore((state) => state.setUser);
+
 	const {
 		register,
 		handleSubmit,
@@ -38,6 +42,9 @@ export default function LoginPage() {
 					showToast.success(data.message);
 					router.push("/");
 					router.refresh();
+					getServerUser().then((user) => {
+						setUser(user as PayLoad);
+					});
 				}
 			} catch (error) {
 				console.error("Login failed:", error);

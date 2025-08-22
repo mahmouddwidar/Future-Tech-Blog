@@ -31,6 +31,28 @@
   /* Fonts */
   --font-inter: var(--font-inter);
   --font-kumbh: var(--font-kumbh-sans)
+  /* Animations */
+  --animate-fade-out: fade-out 1s ease-in-out;
+  --animate-fade-in: fade-in 1s ease-in-out;
+  
+  
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes fade-out {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
 }
 
 .active {

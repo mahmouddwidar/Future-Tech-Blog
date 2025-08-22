@@ -36,18 +36,8 @@ export type CommentWithUser = Comment & { author: Author }
 
 export type SinglePost = PostWithAuthor & { comments: CommentWithUser[] }
 
-
-
-
-    // id: number,
-    // title: string,
-    // content: string,
-    // imageUrl: string | null,
-    // category: string,
-    // authorId: number,
-    // updatedAt: Date,
-    // createdAt: Date,
-    // author?: Author,
-    // comments?: Author[],
-
+export interface DotsMenuOption {
+    label: string;
+    className?: string;
+    onClick: () => void;
 }
