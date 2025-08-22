@@ -1,35 +1,38 @@
 # Future Tech Blog
 
-A simple blog website built with Next.js, featuring users, posts/blogs, comments, categories, and an admin dashboard. The design is inspired by the [AI Blog Website UI Template - Dark Theme](https://www.figma.com/design/TMPOXS4nSSMcuh0BWovoj5/AI-Blog-Website-UI-Template---Dark-Theme-%7C-Produce-UI--Community-?node-id=324-5568&t=6j5JyZVRlDbn4EbL-0) from Figma.
+A modern blog platform built with **Next.js**, featuring user authentication, blog posts, comments, categories, and an admin dashboard.  
+The UI design is inspired by the [AI Blog Website UI Template - Dark Theme](https://www.figma.com/design/TMPOXS4nSSMcuh0BWovoj5/AI-Blog-Website-UI-Template---Dark-Theme-%7C-Produce-UI--Community-?node-id=324-5568&t=6j5JyZVRlDbn4EbL-0).
 
 ## Features
 
-- User registration and authentication
-- Create, edit, and delete blog posts
-- Comment system (planned)
-- Categories for organizing posts (planned)
-- Admin dashboard for managing content and users (planned)
+- User registration and authentication with form validation  
+- Create, edit, and delete blog posts  
+- Comment system  
+- Categories for organizing posts (coming soon)  
+- Admin dashboard for managing content and users (coming soon)  
 
 ## Tech Stack
 
-- Next.js (App Router & API routes)
-- React
-- TypeScript
-- TailwindCSS
-- Prisma ORM & MySQL
-- bcrypt & Zod for security and validation
+- **Frontend & Backend:** Next.js (App Router & API routes)  
+- **UI:** React + TailwindCSS  
+- **Language:** TypeScript  
+- **Form Handling & Validation:** React Hook Form + Zod  
+- **Database & ORM:** MySQL + Prisma  
+- **Security:** bcrypt  
 
 ## Getting Started
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/mahmouddwidar/Future-Tech-Blog.git
+   git clone https://github.com/mahmouddwidar/Future-Tech-Blog.git;
+cd Future-Tech-Blog
    ```
 2. Install dependencies:
    ```bash
    npm install
    ```
-3. Set up your ```.env``` file with your database connection string:
+3. Configure environment variables:
+Create a .env file in the project root and add your database connection string:
     ```bash
     DATABASE_URL="your_mysql_connection_string"
     ```
