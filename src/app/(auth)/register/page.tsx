@@ -9,10 +9,15 @@ import { showToast } from "@/lib/toast";
 import { handleRegisterFormSubmit } from "@/apiCalls/registerApiCall";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+import { getServerUser } from "@/actions/auth";
+import { userStore } from "@/store/user";
+import { PayLoad } from "@/utils/type";
 
 export default function SignUpPage() {
 	const router = useRouter();
 	const [isLoading, startTransition] = useTransition();
+	const setUser = userStore((state) => state.setUser);
+
 	const {
 		register,
 		handleSubmit,
@@ -34,7 +39,7 @@ export default function SignUpPage() {
 		startTransition(async () => {
 			try {
 				const data = await handleRegisterFormSubmit(values);
-				console.log(data)
+				console.log(data);
 				if (data.error) {
 					console.error(data.message);
 					showToast.error(data.message);
@@ -42,6 +47,9 @@ export default function SignUpPage() {
 					showToast.success(data.message);
 					router.push("/");
 					router.refresh();
+					getServerUser().then((user) => {
+						setUser(user as PayLoad);
+					});
 				}
 			} catch (error) {
 				console.error("Login failed:", error);

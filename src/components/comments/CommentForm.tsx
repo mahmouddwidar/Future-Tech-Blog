@@ -8,7 +8,7 @@ import {
 	updateCommentSchema,
 } from "@/utils/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useTransition } from "react";
+import { Dispatch, SetStateAction, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { addComment, updateComment } from "@/apiCalls/CommentApiCalls";
 import { showToast } from "@/lib/toast";
@@ -17,7 +17,7 @@ interface CommentFormProps {
 	mode: "add" | "update";
 	postId?: number;
 	comment?: Comment;
-	setIsEditing?: (bol: boolean) => void;
+	setIsEditing?: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function CommentForm({
@@ -52,9 +52,9 @@ export default function CommentForm({
 				}
 				showToast.success(data.message);
 				if (mode === "update" && setIsEditing) {
-                    setIsEditing(false);
+					setIsEditing(false);
 				}
-                router.refresh();
+				router.refresh();
 			} catch (error) {
 				showToast.error(`Couldn't ${mode} comment, try again later`);
 				console.error(`Couldn't ${mode} comment: `, error);
