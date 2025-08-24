@@ -1,5 +1,5 @@
 "use client";
-import { NavLink } from "@/utils/type";
+import { type NavLink } from "@/utils/type";
 import { useActivePath } from "@/hooks/useActivePath";
 import Link from "next/link";
 

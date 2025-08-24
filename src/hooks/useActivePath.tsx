@@ -7,7 +7,7 @@ export function useActivePath(): (path: string) => boolean {
 		if (path === "/" && pathname !== path) {
 			return false;
 		}
-		return pathname.startsWith(path);
+		return pathname.endsWith(path);
 	};
 
 	return isActivePath;

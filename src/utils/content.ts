@@ -13,13 +13,8 @@ const navigationLinks: NavigationLink[] = [
     },
     {
         id: 3,
-        href: "/podcasts",
-        text: "Podcasts"
-    },
-    {
-        id: 4,
-        href: "/resources",
-        text: "Resources"
+        href: "/dashboard",
+        text: "Dashboard"
     },
 ]
 

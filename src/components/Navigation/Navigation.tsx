@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import ArrowUpRight from "../icons/arrowUpRight";
 import BarsBottom from "../icons/BarsBottom";
@@ -5,8 +6,11 @@ import { navigationLinks } from "@/utils/content";
 import Link from "next/link";
 import NavLink from "./NavLink";
 import LogoutBtn from "./LogoutBtn";
+import { userStore } from "@/store/user";
 
-export default async function Navigation() {
+export default function Navigation() {
+	const user = userStore((state) => state.user);
+
 	return (
 		<header className="bg-dark-8">
 			{/* Outer Link */}
@@ -33,7 +37,15 @@ export default async function Navigation() {
 					{/* Desktop Menu */}
 					<ul className="hidden lg:flex text-white justify-between items-center gap-6 font-inter">
 						{navigationLinks.map((link) => (
-							<NavLink key={link.id} link={link} />
+							<div key={link.id}>
+								{(user && user.role === "ADMIN" && link.href === '/dashboard' ) && (
+									<NavLink key={link.id} link={link} />
+								)}
+								{link.href !== '/dashboard' && (
+									<NavLink key={link.id} link={link} />
+								)}
+							</div>
+							// <NavLink key={link.id} link={link} />
 						))}
 					</ul>
 
