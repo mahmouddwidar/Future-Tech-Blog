@@ -57,7 +57,7 @@ const createCommentSchema = z.object({
 }).strict();
 
 const updateCommentSchema = z.object({
-    content: z.string().min(10).max(1000),
+    content: z.string().min(1).max(1000),
 }).strict()
 
 

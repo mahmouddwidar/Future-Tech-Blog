@@ -1,4 +1,7 @@
-import { type articlesCards, Blog, Category, FeatureGroup, FooterCol, NavigationLink } from "./contentTypes";
+import { type articlesCards, Blog, Category, FeatureGroup, FooterCol, NavigationLink, SidebarLinkConfig } from "./contentTypes";
+import HomeIcon from "@/components/icons/HomeIcon";
+import CommentsIcon from "@/components/icons/CommentsIcon";
+import ArticleIcon from "@/components/icons/ArticleIcon";
 
 const navigationLinks: NavigationLink[] = [
     {
@@ -255,5 +258,23 @@ const footerCols: FooterCol[] = [
         ],
     },
 ];
+
+export const sidebarLinks: SidebarLinkConfig[] = [
+    {
+        href: "/dashboard",
+        label: "Home",
+        icon: HomeIcon
+    },
+    {
+        href: "/dashboard/articles",
+        label: "Blogs",
+        icon: ArticleIcon  
+    },
+    {
+        href: "/dashboard/comments",
+        label: "Comments",
+        icon: CommentsIcon
+    },
+]
 
 export { navigationLinks, articlesCards, features, categories, blogs, footerCols }

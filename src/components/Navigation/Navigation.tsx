@@ -36,17 +36,16 @@ export default function Navigation() {
 
 					{/* Desktop Menu */}
 					<ul className="hidden lg:flex text-white justify-between items-center gap-6 font-inter">
-						{navigationLinks.map((link) => (
-							<div key={link.id}>
-								{(user && user.role === "ADMIN" && link.href === '/dashboard' ) && (
-									<NavLink key={link.id} link={link} />
-								)}
-								{link.href !== '/dashboard' && (
-									<NavLink key={link.id} link={link} />
-								)}
-							</div>
-							// <NavLink key={link.id} link={link} />
-						))}
+						{navigationLinks.map((link) => {
+							if (
+								link.href === "/dashboard" &&
+								(!user || user.role !== "ADMIN")
+							) {
+								return null;
+							}
+
+							return <NavLink key={link.id} link={link} />;
+						})}
 					</ul>
 
 					<div className="flex justify-between items-center gap-x-4">

@@ -1,14 +1,16 @@
 import { usePathname } from "next/navigation";
 
-export function useActivePath(): (path: string) => boolean {
+export function useActivePath() {
 	const pathname = usePathname();
 
-	const isActivePath = (path: string) => {
-		if (path === "/" && pathname !== path) {
-			return false;
+	const checkActivePath = (path: string) => {
+		// For other dashboard sub-routes
+		if (path.startsWith("/dashboard/")) {
+			return pathname.startsWith(path);
 		}
-		return pathname.endsWith(path);
+
+		return pathname === path;
 	};
 
-	return isActivePath;
+	return checkActivePath;
 }

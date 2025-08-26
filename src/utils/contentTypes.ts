@@ -1,3 +1,5 @@
+import { JSX } from "react";
+
 interface NavigationLink {
     id: number,
     href: string,
@@ -67,6 +69,12 @@ interface FooterCol {
     id: number;
     heading: string;
     links: FooterLink[];
+}
+
+export interface SidebarLinkConfig {
+    href: string;
+    label: string;
+    icon: (props: { className: string }) => JSX.Element;
 }
 
 export type { NavigationLink, articlesCards, FeatureItem, FeatureGroup, Category, Blog, FooterCol }
